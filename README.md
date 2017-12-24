@@ -1,5 +1,9 @@
 Updated repository for Payara Dockerfiles. This repository is for [Payara Micro](http://www.payara.fish/payara_micro) runtime.
 
+# Changes from official payara/micro
+- Support for glibc
+- Based on frolvlad/alpine-oraclejdk8
+
 # Supported tags and respective `Dockerfile` links
 
 -	[`latest`](https://github.com/payara/docker-payaramicro/blob/master/Dockerfile)
@@ -15,7 +19,7 @@ Updated repository for Payara Dockerfiles. This repository is for [Payara Micro]
 To start the docker container and run Payara Micro:
 
 ```
-docker run -p 8080:8080 payara/micro
+docker run -p 8080:8080 btrajkovski/payara-micro
 ```
 
 It runs Payara Micro without any applications, therefore accessing the HTTP server bound to port 8080 will just return HTTP code 404 - Not Found.
@@ -50,7 +54,7 @@ The following command will run Payara Micro docker container and will deploy app
 
 ```
 docker run -p 8080:8080 \
- -v ~/payara-micro/applications:/opt/payara/deployments payara/micro
+ -v ~/payara-micro/applications:/opt/payara/deployments btrajkovski/payara-micro
 ```
 
 To run a specific application within the directory, you can modify the default entry point and use `--deploy` option followed by path to the application file:
@@ -58,7 +62,7 @@ To run a specific application within the directory, you can modify the default e
 ```
 docker run -p 8080:8080 \
  -v ~/payara-micro/applications:/opt/payara/deployments \
- payara/micro \
+ btrajkovski/payara-micro \
  --deploy /opt/payara/deployments/myapplication.war
 ```
 
@@ -69,7 +73,7 @@ You can extend the docker image to add your deployables into the `/opt/payara/de
 The following example Dockerfile will build an image that deploys `myapplication.war` when Payara Micro is started:
 
 ```
-FROM payara/micro
+FROM btrajkovski/payara-micro
 
 COPY myapplication.war $DEPLOY_DIR
 ```
@@ -81,7 +85,7 @@ If your application is already in a maven repository, you can run it with Payara
 The following command runs Payara Micro in the docker image and runs an application stored in a maven repository. The application group is `fish.payara.examples`, artifact name is `my-application`, and version is `1.0-SNAPSHOT`. The maven repository is available on host `172.17.0.10`:
 
 ```
-docker docker run -p 8080:8080 payara/micro \
+docker docker run -p 8080:8080 btrajkovski/payara-micro \
  --deployFromGAV "fish.payara.examples:my-application:1.0-SNAPSHOT" \
  --additionalRepository https://172.17.0.10/content/repositories/snapshots
 ```
