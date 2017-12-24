@@ -1,13 +1,13 @@
-FROM openjdk:8-jdk-alpine
+FROM frolvlad/alpine-oraclejdk8:latest
 
 ENV PAYARA_PATH /opt/payara
 
-RUN   apk update \                                                                                                                                                                                                                        
- &&   apk add ca-certificates wget \                                                                                                                                                                                                      
- &&   update-ca-certificates && \
- mkdir -p $PAYARA_PATH/deployments && \
- adduser -D -h $PAYARA_PATH payara && echo payara:payara | chpasswd && \
- chown -R payara:payara /opt
+RUN  apk update && \
+     apk add ca-certificates wget && \
+     update-ca-certificates && \
+     mkdir -p $PAYARA_PATH/deployments && \
+     adduser -D -h $PAYARA_PATH payara && echo payara:payara | chpasswd && \
+     chown -R payara:payara /opt
 
 ENV PAYARA_PKG https://s3-eu-west-1.amazonaws.com/payara.fish/Payara+Downloads/Payara+4.1.2.174/payara-micro-4.1.2.174.jar
 ENV PAYARA_VERSION 174
